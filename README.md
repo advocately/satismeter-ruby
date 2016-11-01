@@ -13,12 +13,12 @@ To get started, you need to configure the client with your secret API key. If yo
 ```ruby
 require 'satismeter'
 Satismeter.api_key = 'YOUR_API_KEY'
-Satismeter.app_id = 'YOUR_API_KEY'
+Satismeter.app_id = 'YOUR_APP_ID'
 ```
 
 For further options, read the [advanced configuration section](#advanced-configuration).
 
-**Note:** Your API key is secret, and you should treat it like a password. You can find your API key in your Satismeter account, under *Settings* > *Integrations* > *API Keys*.
+**Note:** Your API key is secret, and you should treat it like a password. You can find your API key and App ID in your Satismeter account, under *Settings* > *Integrations* > *API Keys*. App ID is called *Project ID* on this screen.
 
 
 Retrieving a survey response:
