@@ -11,48 +11,40 @@ module Satismeter
     end
 
     def get_json(path, params = {})
-      headers = default_headers.dup.merge('Accept' => 'application/json')
-
-      uri = prepare_uri(path, params)
-      uri.query = Utils.to_query(params) unless params.empty?
-      response = @http_adapter.request(:get, uri, headers)
-      handle_json_response(response)
+      perform_request(:get, path, params)
     end
 
-    def post_json(path, params = {})
-      headers = default_headers.dup.merge('Accept' => 'application/json', 'Content-Type' => 'application/json')
+    # def post_json(path, params = {})
+    #   perform_request(:post, path, params)
+    # end
 
-      uri = prepare_uri(path, params)
-      data = prepare_data(params)
+    # def put_json(path, params = {})
+    #   perform_request(:put, path, params)
+    # end
 
-      response = @http_adapter.request(:post, uri, headers, data)
-      handle_json_response(response)
-    end
-
-    def put_json(path, params = {})
-      headers = default_headers.dup.merge('Accept' => 'application/json', 'Content-Type' => 'application/json')
-
-      uri = prepare_uri(path, params)
-      data = prepare_data(path, params)
-
-      response = @http_adapter.request(:put, uri, headers, data)
-      handle_json_response(response)
-    end
-
-    def delete_json(path, params = {})
-      headers = default_headers.dup.merge('Accept' => 'application/json', 'Content-Type' => 'application/json')
-
-      uri = prepare_uri(path, params)
-      data = prepare_data(path, params)
-
-      response = @http_adapter.request(:delete, uri, headers, data)
-      handle_json_response(response)
-    end
+    # def delete_json(path, params = {})
+    #   perform_request(:delete, path, params)
+    # end
 
   private
 
-    def prepare_uri(path, params)
-      params[:project] = @app_id
+    def perform_request(method, path, params)
+      uri = prepare_uri(path)
+      headers = default_headers.dup.merge('Accept' => 'application/json')
+
+      if method == :get
+        uri.query = Utils.to_query(params) unless params.empty?
+        response = @http_adapter.request(method, uri, headers)
+      else
+        data = prepare_data(params)
+        headers['Content-Type'] = 'application/json'
+        response = @http_adapter.request(method, uri, headers, data)
+      end
+
+      handle_json_response(response)
+    end
+
+    def prepare_uri(path)
       URI.parse(File.join(@api_base_url, path))
     end
 
