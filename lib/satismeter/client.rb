@@ -31,7 +31,7 @@ module Satismeter
     def perform_request(method, path, params)
       uri = prepare_uri(path)
       headers = default_headers.dup.merge('Accept' => 'application/json')
-
+      params[:project] = @app_id
       if method == :get
         uri.query = Utils.to_query(params) unless params.empty?
         response = @http_adapter.request(method, uri, headers)
@@ -71,7 +71,7 @@ module Satismeter
 
     def default_headers
       @default_headers ||= {
-        'Authorization' => "Basic #{["#{@api_key}:"].pack('m').chomp}",
+        'AuthKey' => @api_key,
         'User-Agent' => "Satismeter RubyGem #{Satismeter::VERSION}"
       }.freeze
     end
