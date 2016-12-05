@@ -32,7 +32,13 @@ Listing survey responses:
 
 ```ruby
 # List all survey responses
-survey_responses = Satismeter::SurveyResponse.all(startDate: Time.now)
+survey_responses = Satismeter::SurveyResponse.all({
+  startDate: 1.day.ago,
+  page: {
+    size: 100,
+    number: 2
+  }
+})
 ```
 
 ## <a name="advanced-configuration"></a> Advanced configuration & testing
