@@ -14,6 +14,7 @@ require 'satismeter/resource'
 require 'satismeter/operations/all'
 require 'satismeter/operations/retrieve'
 require 'satismeter/resources/survey_response'
+require 'satismeter/resources/user'
 
 require 'satismeter/errors'
 require 'satismeter/http_response'
